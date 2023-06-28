@@ -48,48 +48,6 @@ app.use(limiter);
 // Security middleware
 app.use(helmet());
 
-// Set response
-function setResponse(username, repos) {
-  return `<h2>${username} has ${repos} Github repos</h2>`;
-}
-
-//Cache middleware
-function cache(req, res, next) {
-  const { username } = req.params;
-
-  // redisClient.get(username, (err, data) => {
-  //   if(err) throw err;
-
-  //   if(data !== null) {
-  //     res.send(setResponse(username, data));
-  //   } else {
-  //     next();
-  //   }
-  // })
-}
-
-//Make request to Github for data
-async function getRepos(req, res, next) {
-  try {
-    console.log('Fetching Data...');
-    const { username } = req.params;
-    const response = await fetch(`https://api.github.com/users/${username}`);
-    const data = await response.json();
-
-    const repos = data.public_repos;
-
-    // Set data to Redis
-    redisClient.setEx(username, 3600, repos);
-
-    res.send(setResponse(username, repos));
-  } catch (err) {
-    console.error(err);
-    res.status(500);
-  }
-}
-
-app.get(`/repos/:${USER_NAME}`, cache, getRepos);
-
 app.get('/:shortUrl', async (req, res) => {
   const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
   if (shortUrl == null) return res.sendStatus(404);
