@@ -1,6 +1,6 @@
-##Scissor Documentation
+## Scissor Documentation
 
-###Hosted url:
+### Hosted url:
 
 The Scissor url shortner is built with NodeJs, Typescript, Redis caching layer, ejs. It has the following features:
 * an api to generate shortened URL, given a url.
