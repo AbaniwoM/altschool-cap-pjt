@@ -6,15 +6,30 @@ import { dbConfig } from "../config/config";
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const ShortUrl = require("../models/shortUrl");
-import * as redis from 'redis';
+// import * as redis from 'redis';
+import { Redis } from "ioredis";
 const app = express();
 
 //Redis
-const USER_NAME = 'username';
 
 const url = dbConfig.REDIS_URL || 'redis://localhost:6379';
-const redisClient = redis.createClient({
-    url
+const redisClient = new Redis(url);
+
+// Check if the Redis client is connected
+console.log(redisClient);
+redisClient.on('ready', () => {
+  console.log('Redis client connected');
+});
+
+// Check if there was an error connecting to Redis
+redisClient.on('error', (err) => {
+  console.error('Error connecting to Redis:', err);
+});
+
+// Close the Redis connection
+process.on('SIGINT', () => {
+  redisClient.quit();
+  process.exit();
 });
 
 //Connect to MongoDB Database
@@ -27,6 +42,15 @@ app.use(express.urlencoded({ extended: false }))
 app.get("/", async (req: Request, res: Response, next: NextFunction) => {
   const shortUrls = await ShortUrl.find()
   res.render("index", { shortUrls: shortUrls });
+
+  const cachedValue = await redisClient.get(shortUrls)
+
+  if (cachedValue) {
+    console.log('cached value got returned')
+    return new Response(cachedValue)
+  } else {
+    return new Response('Error');
+  }
 });
 
 app.post('/shortUrls', async (req, res) => {
