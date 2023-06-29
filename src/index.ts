@@ -16,7 +16,7 @@ const url = dbConfig.REDIS_URL || 'redis://localhost:6379';
 const redisClient = new Redis(url);
 
 // Check if the Redis client is connected
-console.log(redisClient);
+// console.log(redisClient);
 redisClient.on('ready', () => {
   console.log('Redis client connected');
 });
