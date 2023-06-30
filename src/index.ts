@@ -1,4 +1,4 @@
-import express, { Application, Request, Response, NextFunction } from "express";
+const express = require("express");
 // const CONFIG = require("./config/config.ts");
 // const connectToDb = require("./db/mongodb");
 const { connectToDb } = require("../db/mongodb");
@@ -7,7 +7,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const ShortUrl = require("../models/shortUrl");
 // import * as redis from 'redis';
-import { Redis } from "ioredis";
+const { Redis } = require("ioredis");
 const app = express();
 
 //Redis
@@ -39,7 +39,7 @@ connectToDb();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }))
 
-app.get("/", async (req: Request, res: Response, next: NextFunction) => {
+app.get("/", async (req, res) => {
   const shortUrls = await ShortUrl.find()
   res.render("index", { shortUrls: shortUrls });
 
