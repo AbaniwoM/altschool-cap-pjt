@@ -1,8 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 // const CONFIG = require("./config/config.ts");
 // const connectToDb = require("./db/mongodb");
-import { connectToDb } from "../db/mongodb";
-import { dbConfig } from "../config/config";
+const { connectToDb } = require("../db/mongodb");
+const { dbConfig } = require("../config/config");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const ShortUrl = require("../models/shortUrl");
@@ -43,14 +43,14 @@ app.get("/", async (req: Request, res: Response, next: NextFunction) => {
   const shortUrls = await ShortUrl.find()
   res.render("index", { shortUrls: shortUrls });
 
-  const cachedValue = await redisClient.get(shortUrls)
+  // const cachedValue = await redisClient.get(shortUrls)
 
-  if (cachedValue) {
-    console.log('cached value got returned')
-    return new Response(cachedValue)
-  } else {
-    return new Response('Error');
-  }
+  // if (cachedValue) {
+  //   console.log('cached value got returned')
+  //   return new Response(cachedValue)
+  // } else {
+  //   return new Response('Error');
+  // }
 });
 
 app.post('/shortUrls', async (req, res) => {
@@ -79,7 +79,7 @@ app.get('/:shortUrl', async (req, res) => {
   shortUrl.clicks++
   shortUrl.save()
 
-  res.redirect(shortUrl.full)
+  res.redirect(shortUrl.full);
 })
 
 app.listen(dbConfig.PORT, () => {

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-import { dbConfig } from "../config/config";
+const { dbConfig } = require("../config/config");
 
 function connectToDb() {
     mongoose.set("strictQuery", false);
