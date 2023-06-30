@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "npx ts-node ./src/index.ts",
+    "start": "node ./build/index.ts",
     "dev": "nodemon src/index.ts",
     "build": "tsc"
   },
