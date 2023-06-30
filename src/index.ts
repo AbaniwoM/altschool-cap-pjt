@@ -1,7 +1,7 @@
 const express = require("express");
 // const CONFIG = require("./config/config.ts");
 // const connectToDb = require("./db/mongodb");
-const { connectToDb } = require("../db/mongodb");
+const { connectToDb } = require("../db/connect");
 const { dbConfig } = require("../config/config");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
