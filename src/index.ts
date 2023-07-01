@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: false }))
 app.get("/", async (req, res) => {
   const shortUrls = await ShortUrl.find()
   res.render("index", { shortUrls: shortUrls });
-
+  
   // const cachedValue = await redisClient.get(shortUrls)
 
   // if (cachedValue) {
