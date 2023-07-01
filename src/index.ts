@@ -73,6 +73,7 @@ app.use(limiter);
 app.use(helmet());
 
 app.get('/:shortUrl', async (req, res) => {
+  try {
   const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
   if (shortUrl == null) return res.sendStatus(404);
 
@@ -80,6 +81,9 @@ app.get('/:shortUrl', async (req, res) => {
   shortUrl.save()
 
   res.redirect(shortUrl.full);
+  } catch(error) {
+    console.log(error);
+  }
 })
 
 app.listen(dbConfig.PORT, () => {
