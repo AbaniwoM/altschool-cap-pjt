@@ -32,9 +32,6 @@ process.on('SIGINT', () => {
   process.exit();
 });
 
-//Connect to MongoDB Database
-connectToDb();
-
 // Setting the view engine
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }))
@@ -86,6 +83,7 @@ app.get('/:shortUrl', async (req, res) => {
   }
 })
 
-app.listen(dbConfig.PORT, () => {
-  console.log(`Server started on http://localhost:${dbConfig.PORT}`);
-});
+//Connect to MongoDB Database
+connectToDb(app);
+
+export default app;
