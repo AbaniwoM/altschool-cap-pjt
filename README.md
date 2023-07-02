@@ -34,3 +34,26 @@ app.get('/:shortUrl', async (req, res) => {
   res.redirect(shortUrl.full)
 })
 ```
+
+The shortUrl models are contained in the shortUrl.ts file which has the shortUrlSchema for full, short and clicks.
+
+```
+const shortUrlSchema = new mongoose.Schema({
+    full: {
+        type: String,
+        required: true
+    },
+    short: {
+        type: String,
+        required: true,
+        default: shortId.generate
+    },
+    clicks: {
+        type: Number,
+        required: true,
+        default: 0
+    }
+})
+```
+
+The index.ejs file is where the simple UI for the scissor app is formed. It is the back bone of the functionality we see in the application.
