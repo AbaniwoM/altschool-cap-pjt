@@ -57,3 +57,5 @@ const shortUrlSchema = new mongoose.Schema({
 ```
 
 The index.ejs file is where the simple UI for the scissor app is formed. It is the back bone of the functionality we see in the application.
+
+Ref: [here](https://blog.webdevsimplified.com/)
